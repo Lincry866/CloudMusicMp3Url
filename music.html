@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<meta charset="utf-8">
+<link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/audioplayer.css">
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/audioplayer.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+	
+</style>
+<script>
+$(document).ready(function() {
+	$('#button1').click(function() {
+		//获取歌曲信息
+		if (document.getElementById('mid').value == "") {
+			var id="366752";//默认id
+		}else{
+			var id=document.getElementById('mid').value;
+		}
+		var murl="//music.163.com/outchain/player?type=2&id="+id+"&auto=0&height=66";
+		$('iframe').attr('src', murl);
+		$.getJSON('get.php', {mid: id}, function(json, textStatus) {
+			//debugger;
+			var data = $.parseJSON(json);
+			var mp3Url = data.songs["0"].mp3Url;
+			var mp3Name = data.songs["0"].name;
+			var mp3Art = data.songs["0"].artists["0"].name;
+			var mp3Album = data.songs["0"].album.name;
+			//前端显示歌曲信息
+			$('audio').attr('src', mp3Url);
+			$('#mp3Name').html("歌曲名: "+mp3Name);
+			$('#mp3Art').html("艺术家: "+mp3Art);
+			$('#mp3Url').html("下载链接: "+mp3Url);
+			$('#mp3Album').html("专辑名: "+mp3Album);
+   });
+});
+			
+		});
+
+</script>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<div class="navation" align="cneter">
+	<div class="col-lg-12 navbar navbar-nav" align="center">
+	<a href="index.html" class="navbar navbar-text" align="center">网 易 云 解 析</a>
+	<div class="navbar navbar-nav navbar-right" style="margin-right: 20px;">	
+	<a href="index.html" class="navbar navbar-text" >视频云解析</a>
+	<a href="#" class="navbar navbar-text">网易云解析</a>
+	<a href="https://www.xiaodidu.com/" class="navbar navbar-text">博客</a>
+	</div>
+	</div>
+
+</div>
+
+	<!-- 网易云ID -->
+<div class="play">
+<div class="col-lg-12">
+<div class="input-group">
+	<span class="input-group-addon">网易音乐ID:</span>
+	<input type="text" class="form-control" id="mid" placeholder="例如:http://music.163.com/#/song?id=28678883,只需输入28678883即可">
+	<span class="input-group-btn">
+	<button class="btn btn-primary" style="margin-left: 8px;" id="button1" >立即获取</button>
+	</span>
+</div>
+
+<!-- 加载默认歌曲 -->
+<div class="list-group" style="margin-top: 40px;">
+	<script>$( function() { $( 'audio' ).audioPlayer(); } );</script>
+	<li class="list-group-item"><audio src="http://m2.music.126.net/eugw6wmyOcPU9IV--RrcuA==/5934064255123493.mp3" id="audio" ></audio></li>
+	<li class="list-group-item"><span id="mp3Name">歌曲名:</span></li>
+	<li class="list-group-item"><span id="mp3Art">艺术家:</span></li>
+	<li class="list-group-item"><span id="mp3Album">专辑名:</span></li>
+	<li class="list-group-item"><span id="mp3Url">下载链接:</span></li>
+</div>
+
+
+</div>
+	
+</div>
+<!-- 底部footer -->
+<footer class="footer ">
+	<div align="center" style="padding-top: 15;font-size: 18px;font-color:white;">
+	&copy; Copyright 2017 小滴嘟
+	</div>
+</footer>
+
+</body>
+
+</html>
